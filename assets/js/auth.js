@@ -3,11 +3,16 @@ import {
   apiResult
 } from './helpers.js'
 
+sendBtn.addEventListener('click', (e) => {
+  e.preventDefault()
+  getData(usernameInput.value, passwordInput.value)
+})
+
 //Main datahandling function
-const getData = async () => {
+const getData = async (user, password) => {
   const formData = new FormData()
-  formData.append('username', 'hans')
-  formData.append('password', 'hans')
+  formData.append('username', user)
+  formData.append('password', password)
 
   const options = {
     method: 'POST',
@@ -15,12 +20,15 @@ const getData = async () => {
   }
 
   const data = await apiResult('https://api.mediehuset.net/token', options)
-  sessionStorage.setItem('token', JSON.Stringify(data))
-  const token = JSON.Parse(sessionStorage.getItem('token'))
 
+  // const token = JSON.Parse(sessionStorage.getItem('token'))
+  if (data.access_token) {
+    errMsg.innerText = 'You are now logged in.'
+  } else {
+    errMsg.innerText = 'Wrong password. Please try again.'
+  }
+  const token = data.access_token
+  sessionStorage.setItem('token', token)
   console.log(token);
 
 } // End of getData
-
-// Calling getData
-getData()
