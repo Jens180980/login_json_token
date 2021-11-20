@@ -3,6 +3,7 @@ import {
   apiResult
 } from './helpers.js'
 
+//Listening for sendbutton click to fire main function
 sendBtn.addEventListener('click', (e) => {
   e.preventDefault()
   getData(usernameInput.value, passwordInput.value)
@@ -21,7 +22,7 @@ const getData = async (user, password) => {
 
   const data = await apiResult('https://api.mediehuset.net/token', options)
 
-  // const token = JSON.Parse(sessionStorage.getItem('token'))
+  //Error- or successmessages
   if (data.access_token) {
     errMsg.innerText = 'You are now logged in.'
   } else {
